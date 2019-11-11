@@ -3,7 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ServerSocket socket;
@@ -14,7 +14,7 @@ public class Server {
 			
 			while(true) {
 				Socket client = socket.accept();
-				
+				User user = new User(client);
 			}
 		}catch(IOException e) {
 			System.out.println(e.getMessage());
