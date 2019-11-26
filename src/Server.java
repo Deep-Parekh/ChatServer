@@ -7,6 +7,7 @@ public class Server {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ServerSocket socket;
+		ChatRoom chat = new ChatRoom();
 		
 		try {
 
@@ -14,7 +15,8 @@ public class Server {
 			
 			while(true) {
 				Socket client = socket.accept();
-				User user = new User(client);
+				User user = new User(client, chat);
+				chat.addUser(user);
 			}
 		}catch(IOException e) {
 			System.out.println(e.getMessage());
