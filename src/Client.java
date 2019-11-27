@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -8,12 +9,12 @@ public class Client {
 	
 	static Scanner kb = new Scanner(System.in);
 	static String username;
+	static ObjectOutputStream outToServer;
+	static ObjectInputStream inFromServer;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Socket server;
-		ObjectOutputStream outToServer;
-		ObjectInputStream inFromServer;
 		
 		try {
 			server = new Socket("localhost",5000);
@@ -37,6 +38,12 @@ public class Client {
 		System.out.print("Enter your message: ");
 		String msg = kb.nextLine().trim();
 		return msg;
+	}
+	
+	public static MessageQueue getMessageQueue() throws IOException, ClassNotFoundException{
+		outToServer.writeUTF("MessageQueue");
+		MessageQueue queue = (MessageQueue) inFromServer.readObject();
+		return queue;
 	}
 
 }

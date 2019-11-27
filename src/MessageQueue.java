@@ -13,6 +13,14 @@ public class MessageQueue implements Runnable {
 		return this.messageQueue.isEmpty();
 	}
 	
+	public void addMessage(String msg) {
+		this.messageQueue.add(msg);
+	}
+	
+	public String removeMessage() {
+		return this.messageQueue.remove();
+	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub

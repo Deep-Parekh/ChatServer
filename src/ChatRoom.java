@@ -44,14 +44,6 @@ public class ChatRoom implements Runnable{
 		return this.users;
 	}
 	
-	/*
-	 * Will need to be synchronized (Using locks or synchronized)
-	 * to only allow 1 user to send a message at one time
-	 */
-	public synchronized void receiveMessage() {
-		
-	}
-	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
