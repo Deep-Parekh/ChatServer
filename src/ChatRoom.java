@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ChatRoom{
 	
 	private List<User> onlineUsers;
-	private MessageQueue messageQueue;
+	private Queue<String> messageQueue;
 	int users;
 	ServerSocket socket;
 	//Lock lock = new ReentrantLock();	// May need to remove this 
@@ -18,7 +18,7 @@ public class ChatRoom{
 	public ChatRoom(int portNum) {
 		this.onlineUsers = new LinkedList<User>();
 		this.users = 0;
-		this.messageQueue = new MessageQueue();
+		this.messageQueue = new LinkedList<String>();
 		try {
 			this.socket = new ServerSocket(portNum);
 		} catch (IOException e) {
@@ -30,7 +30,7 @@ public class ChatRoom{
 		this.onlineUsers = new LinkedList<User>();
 		this.onlineUsers.add(user);
 		++this.users;
-		this.messageQueue = new MessageQueue();
+		this.messageQueue = new LinkedList<String>();
 	}
 	
 	public void addUser(User user) {
@@ -38,9 +38,12 @@ public class ChatRoom{
 		++this.users;
 	}
 	
-	public void sendAll(String msg) {
-		for(User user: onlineUsers) {
-			user.sendToUser(msg);
+	public void sendAll() {
+		while(!this.messageQueue.isEmpty()) {
+			String msg = messageQueue.remove();
+			for(User user: onlineUsers) {
+				user.sendToUser(msg);
+			}
 		}
 	}
 	
@@ -66,7 +69,7 @@ public class ChatRoom{
 				Socket client = chat.socket.accept();
 				User user = new User(client, chat);
 				chat.addUser(user);
-				System.out.println("Client accepted.\nOnline Users: " + chat.users);
+				System.out.println("Client accepted.\nOnline Users: " + chat.users); 
 			}
 		}catch(IOException e) {
 			System.out.println(e.getMessage());

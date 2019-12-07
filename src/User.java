@@ -15,6 +15,10 @@ public class User implements Runnable{
 	String userMsg;
 	ChatRoom chatRoom;
 	
+	public User(String username) {
+		this.username = username;
+	}
+	
 	public User(Socket client, ChatRoom chatRoom) {
 		this.userSocket = client;
 		try {
@@ -60,6 +64,11 @@ public class User implements Runnable{
 			e.printStackTrace();
 		}
 		return msg;
+	}
+	
+	@Override
+	public String toString() {
+		return this.username;
 	}
 
 	@Override

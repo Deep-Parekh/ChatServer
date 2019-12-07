@@ -15,11 +15,12 @@ public class Client {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Socket server;
-		
+		User user;
 		try {
 			server = new Socket("localhost",5000);
 			System.out.println("Connection with server established");
 			getUsername();
+			user = new User(username);
 			System.out.println("Your username is: " + username);
 			inFromServer = new ObjectInputStream(server.getInputStream());		// Order should be opposite of
 			outToServer = new ObjectOutputStream(server.getOutputStream());		// that on the server
@@ -39,12 +40,6 @@ public class Client {
 		System.out.print("Enter your message: ");
 		String msg = kb.nextLine().trim();
 		return msg;
-	}
-	
-	public static MessageQueue getMessageQueue() throws IOException, ClassNotFoundException{
-		outToServer.writeUTF("MessageQueue");
-		MessageQueue queue = (MessageQueue) inFromServer.readObject();
-		return queue;
 	}
 
 }
