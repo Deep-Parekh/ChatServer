@@ -20,6 +20,7 @@ public class Client {
 			server = new Socket("localhost",5000);
 			System.out.println("Connection with server established");
 			getUsername();
+			System.out.println("Your username is: " + username);
 			inFromServer = new ObjectInputStream(server.getInputStream());		// Order should be opposite of
 			outToServer = new ObjectOutputStream(server.getOutputStream());		// that on the server
 			String msg = getMessage();
