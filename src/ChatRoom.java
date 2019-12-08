@@ -1,15 +1,14 @@
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ChatRoom{
 	
-	private List<User> onlineUsers;
+	private transient List<User> onlineUsers;
 	private Queue<String> messageQueue;
 	int users;
 	ServerSocket socket;
@@ -31,6 +30,10 @@ public class ChatRoom{
 		this.onlineUsers.add(user);
 		++this.users;
 		this.messageQueue = new LinkedList<String>();
+	}
+	
+	public Socket accept() throws IOException{
+		return this.socket.accept();
 	}
 	
 	public void addUser(User user) {
@@ -56,24 +59,16 @@ public class ChatRoom{
 		return this.users;
 	}
 	
-	public static void main(String[] args) {
-		
-		ChatRoom chat = new ChatRoom(5000);
-		
-		try {
-
-			System.out.println("Server has started...");
-			
-			while(true) {
-				System.out.println("Accepting clients...");
-				Socket client = chat.socket.accept();
-				User user = new User(client, chat);
-				chat.addUser(user);
-				System.out.println("Client accepted.\nOnline Users: " + chat.users); 
-			}
-		}catch(IOException e) {
-			System.out.println(e.getMessage());
+	public synchronized boolean addMessage(String msg) {
+		if(msg == ".") {
+			--this.users;
+			return true;
 		}
-		
+		try {
+			this.messageQueue.add(msg);
+		}catch(Exception e) {
+			return false;
+		}
+		return true;
 	}
 }

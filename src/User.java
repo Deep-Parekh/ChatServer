@@ -2,16 +2,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.Socket;
 
 public class User implements Runnable{
 	
 	String username;
 	Socket userSocket;
-	OutputStream outToUser; 
-	InputStream inFromUser;
+	ObjectOutputStream outToUser; 
+	ObjectInputStream inFromUser;
 	String userMsg;
 	ChatRoom chatRoom;
 	
@@ -22,8 +25,8 @@ public class User implements Runnable{
 	public User(Socket client, ChatRoom chatRoom) {
 		this.userSocket = client;
 		try {
-			this.outToUser = client.getOutputStream();
-			this.inFromUser = client.getInputStream();
+			this.outToUser = new ObjectOutputStream(client.getOutputStream());
+			this.inFromUser = new ObjectInputStream(client.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -34,12 +37,21 @@ public class User implements Runnable{
 		this.userSocket = client;
 		this.username = username;
 		try {
-			this.outToUser = client.getOutputStream();
-			this.inFromUser = client.getInputStream();
+			this.outToUser = new ObjectOutputStream(client.getOutputStream());
+			this.inFromUser = new ObjectInputStream(client.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		this.chatRoom = chatRoom;
+	}
+	
+	public boolean send(ChatRoom chat) {
+		try {
+			this.outToUser.writeObject(chat);
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean sendToUser(String msg) {
@@ -69,6 +81,14 @@ public class User implements Runnable{
 	@Override
 	public String toString() {
 		return this.username;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(!(o instanceof User)) return false;
+		User usr = (User) o;
+		return this.username.equals(usr.username);
 	}
 
 	@Override

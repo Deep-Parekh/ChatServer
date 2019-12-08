@@ -11,6 +11,7 @@ public class Client {
 	static String username;
 	static ObjectOutputStream outToServer;
 	static ObjectInputStream inFromServer;
+	static ChatRoom chat;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -24,8 +25,13 @@ public class Client {
 			System.out.println("Your username is: " + username);
 			inFromServer = new ObjectInputStream(server.getInputStream());		// Order should be opposite of
 			outToServer = new ObjectOutputStream(server.getOutputStream());		// that on the server
+			chat = (ChatRoom) inFromServer.readObject();
 			String msg = getMessage();
-			outToServer.writeUTF(msg);
+			while(!msg.equals(".")) {
+				chat.addMessage(username + ":" +msg);
+				msg = getMessage();
+			}
+			chat.removeUser(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}   
@@ -37,7 +43,7 @@ public class Client {
 	}
 	
 	public static String getMessage() {
-		System.out.print("Enter your message: ");
+		System.out.print("Enter your message (Enter '.' to quit): ");
 		String msg = kb.nextLine().trim();
 		return msg;
 	}
