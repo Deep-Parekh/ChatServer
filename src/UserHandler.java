@@ -1,8 +1,9 @@
+import java.util.LinkedList;
 import java.util.List;
 
 public class UserHandler implements Runnable{
 
-	private static List<User> users;
+	private static List<User> users = new LinkedList<User>();
 	User user;
 	
 	public UserHandler(User user)
