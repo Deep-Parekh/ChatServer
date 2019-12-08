@@ -17,6 +17,7 @@ public class ChatRoom{
 	
 	public ChatRoom(int portNum) {
 		this.onlineUsers = new LinkedList<User>();
+		UserHandler.setUsers(onlineUsers);
 		this.users = 0;
 		this.messageQueue = new LinkedList<String>();
 		try {
@@ -69,6 +70,9 @@ public class ChatRoom{
 				Socket client = chat.socket.accept();
 				User user = new User(client, chat);
 				chat.addUser(user);
+				UserHandler handler = new UserHandler(user);
+				Thread t = new Thread(handler);
+				t.start();
 				System.out.println("Client accepted.\nOnline Users: " + chat.users); 
 			}
 		}catch(IOException e) {
