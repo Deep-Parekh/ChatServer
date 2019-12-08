@@ -16,6 +16,7 @@ public class ChatRoom{
 	
 	public ChatRoom(int portNum) {
 		this.onlineUsers = new LinkedList<User>();
+		UserHandler.setUsers(onlineUsers);
 		this.users = 0;
 		this.messageQueue = new LinkedList<String>();
 		try {
