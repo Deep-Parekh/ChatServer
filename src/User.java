@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.Socket;
 
-public class User implements Runnable{
+public class User {
 	
 	String username;
 	Socket userSocket;
@@ -80,11 +80,5 @@ public class User implements Runnable{
 		if(!(o instanceof User)) return false;
 		User usr = (User) o;
 		return this.username.equals(usr.username);
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
 	}
 }
