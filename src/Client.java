@@ -22,7 +22,7 @@ public class Client {
 			inFromServer = new ObjectInputStream(server.getInputStream());		// Order should be opposite of
 			outToServer = new ObjectOutputStream(server.getOutputStream());		// that on the server
 			ClientReceiver receiver = new ClientReceiver(inFromServer);
-			Thread t = new Thread(receiver);
+			Thread t = new Thread(receiver, username);
 			t.start();
 			String msg = getMessage();
 			while(true) {
