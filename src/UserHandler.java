@@ -40,10 +40,15 @@ public class UserHandler implements Runnable{
 	{
 		while (true)
 		{
-			String str = user.receiveFromUser();
-			int status = addMessage(str);
-			if(status == -1)
-				break;
+			try {
+				String str = user.receiveFromUser();
+				int status = addMessage(str);
+				if(status == -1)
+					break;
+			}
+			catch (ClassNotFoundException e) {
+				
+			}
 		}
 	}
 }

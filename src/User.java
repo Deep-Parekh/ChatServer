@@ -58,11 +58,10 @@ public class User {
 		}
 	}
 	
-	public String receiveFromUser() {
+	public String receiveFromUser() throws ClassNotFoundException {
 		String msg = null;
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(this.inFromUser));
-			msg = reader.readLine();
+			msg = (String) inFromUser.readObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
