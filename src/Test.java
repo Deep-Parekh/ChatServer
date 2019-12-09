@@ -16,8 +16,11 @@ public static void main(String[] args) {
 				Socket client = chat.accept();
 				User user = new User(client, chat);
 				chat.addUser(user);
+				UserHandler handler = new UserHandler(user);
+ 				Thread t = new Thread(handler);
+ 				t.start();
 				System.out.println("Client accepted.\nOnline Users: " + chat.getNumberOfUsers()); 
-				user.send(chat);
+				//user.send(chat);
 			}
 		}catch(IOException e) {
 			System.out.println(e.getMessage());

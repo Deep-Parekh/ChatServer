@@ -16,22 +16,21 @@ public class Client {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Socket server;
-		User user;
 		try {
 			server = new Socket("localhost",5000);
 			System.out.println("Connection with server established");
 			getUsername();
-			user = new User(username);
 			System.out.println("Your username is: " + username);
 			inFromServer = new ObjectInputStream(server.getInputStream());		// Order should be opposite of
 			outToServer = new ObjectOutputStream(server.getOutputStream());		// that on the server
-			chat = (ChatRoom) inFromServer.readObject();
 			String msg = getMessage();
-			while(!msg.equals(".")) {
-				chat.addMessage(username + ":" +msg);
+			while(true) {
+				outToServer.writeObject(msg);
+				if (msg.equals("."))
+					break;
 				msg = getMessage();
 			}
-			chat.removeUser(user);
+			System.out.println("You have left the chat room");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}   

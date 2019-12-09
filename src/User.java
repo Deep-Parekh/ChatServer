@@ -45,15 +45,6 @@ public class User implements Runnable{
 		this.chatRoom = chatRoom;
 	}
 	
-	public boolean send(ChatRoom chat) {
-		try {
-			this.outToUser.writeObject(chat);
-		} catch (IOException e) {
-			return false;
-		}
-		return true;
-	}
-	
 	public boolean sendToUser(String msg) {
 		PrintWriter writer = new PrintWriter(this.outToUser);
 		try {
@@ -75,7 +66,7 @@ public class User implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return msg;
+		return msg.trim();
 	}
 	
 	@Override
