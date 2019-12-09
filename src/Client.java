@@ -23,6 +23,8 @@ public class Client {
 			System.out.println("Your username is: " + username);
 			inFromServer = new ObjectInputStream(server.getInputStream());		// Order should be opposite of
 			outToServer = new ObjectOutputStream(server.getOutputStream());		// that on the server
+			ClientReceiver receiver = new ClientReceiver(inFromServer);
+			Thread t = new Thread(receiver);
 			String msg = getMessage();
 			while(true) {
 				outToServer.writeObject(msg);
