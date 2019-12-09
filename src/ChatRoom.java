@@ -16,9 +16,11 @@ public class ChatRoom{
 	public ChatRoom(int portNum) {
 		this.onlineUsers = new LinkedList<User>();
 		UserHandler.setUsers(onlineUsers);
+		QueueHandler.setUsers(onlineUsers);
 		this.users = 0;
 		this.messageQueue = new LinkedList<String>();
 		UserHandler.setQueue(this.messageQueue);
+		QueueHandler.setQueue(this.messageQueue);
 		try {
 			this.socket = new ServerSocket(portNum);
 		} catch (IOException e) {

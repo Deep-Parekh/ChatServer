@@ -1,4 +1,3 @@
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,7 +10,6 @@ public class Client {
 	static String username;
 	static ObjectOutputStream outToServer;
 	static ObjectInputStream inFromServer;
-	static ChatRoom chat;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -25,6 +23,7 @@ public class Client {
 			outToServer = new ObjectOutputStream(server.getOutputStream());		// that on the server
 			ClientReceiver receiver = new ClientReceiver(inFromServer);
 			Thread t = new Thread(receiver);
+			t.start();
 			String msg = getMessage();
 			while(true) {
 				outToServer.writeObject(msg);
