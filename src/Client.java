@@ -25,6 +25,7 @@ public class Client {
 			outToServer = new ObjectOutputStream(server.getOutputStream());		// that on the server
 			ClientReceiver receiver = new ClientReceiver(inFromServer);
 			Thread t = new Thread(receiver);
+			t.start();
 			String msg = getMessage();
 			while(true) {
 				outToServer.writeObject(msg);
