@@ -23,17 +23,17 @@ public class UserHandler implements Runnable{
 		messageQueue = messages;
 	}
 	
-	public synchronized boolean addMessage(String msg) {
+	public synchronized int addMessage(String msg) {
 		if(msg == ".") {
 			users.remove(this.user);
-			return true;
+			return -1;
 		}
 		try {
 			messageQueue.add(this.user.username + ":" + msg);
 		}catch(Exception e) {
-			return false;
+			return 0;
 		}
-		return true;
+		return 1;
 	}
 	
 	public void run()
@@ -41,7 +41,9 @@ public class UserHandler implements Runnable{
 		while (true)
 		{
 			String str = user.receiveFromUser();
-			addMessage(str);
+			int status = addMessage(str);
+			if(status == -1)
+				break;
 		}
 	}
 }
